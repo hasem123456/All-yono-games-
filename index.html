@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>All YONO Games</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background: url('https://example.com/background-image.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding-top: 20px;
+    }
+    h1 {
+      font-size: 2.5em;
+      text-align: center;
+      color: #ffd700;
+      text-shadow: 2px 2px 4px #000;
+      margin-bottom: 20px;
+    }
+    .search-bar {
+      width: 90%;
+      max-width: 600px;
+      padding: 15px;
+      margin-bottom: 20px;
+      border: 3px solid #00cc99;
+      border-radius: 10px;
+      background-color: rgba(255, 255, 255, 0.9);
+      color: #333;
+      font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+    }
+    .buttons {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .btn {
+      display: inline-block;
+      padding: 15px 30px;
+      margin: 10px;
+      border: none;
+      background: #00cc99;
+      color: #fff;
+      font-size: 18px;
+      cursor: pointer;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+    .btn:hover {
+      background: #009973;
+      transform: scale(1.05);
+    }
+    .game-container {
+      width: 90%;
+      max-width: 1200px;
+      display: block;
+    }
+    .game-row {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 15px;
+    }
+    .game-item {
+      background: rgba(0, 204, 153, 0.7);
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+      width: 45%;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .game-item:hover {
+      background: #009973;
+    }
+    .game-item img {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 5px;
+      border-radius: 5px;
+    }
+    .game-item a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+      display: block;
+    }
+    .game-item a:hover {
+      text-decoration: underline;
+    }
+    .no-link {
+      color: #ccc;
+      pointer-events: none;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-content {
+      background: #fff;
+      color: #000;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+    }
+    .modal-content img {
+      width: 150px;
+      height: 150px;
+      margin-bottom: 10px;
+    }
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+      color: #ddd;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.7);
+    }
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 1.8em;
+      }
+      .search-bar {
+        width: 95%;
+        padding: 10px;
+        font-size: 16px;
+      }
+      .btn {
+        padding: 10px 20px;
+        font-size: 16px;
+      }
+      .game-row {
+        flex-direction: column;
+        align-items: center;
+      }
+      .game-item {
+        width: 80%;
+        margin-bottom: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>All YONO Games List & APK Download</h1>
+  <input type="text" class="search-bar" placeholder="YONO App Search" onkeyup="searchGames()">
+  <div class="buttons">
+    <a href="#all" class="btn" onclick="showSection('all')">All Games</a>
+    <a href="#new" class="btn" onclick="showSection('new')">New Games</a>
+    <a href="#old" class="btn" onclick="showSection('old')">Old Games</a>
+  </div>
+  <div class="game-container" id="gameContainer"></div>
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">×</span>
+      <img id="modal-image" src="" alt="Game Image">
+      <h2 id="modal-name"></h2>
+      <p id="modal-details"></p>
+      <a id="modal-link" href="#" target="_blank">Download</a>
+    </div>
+  </div>
+  <footer>Developed by Hasem Ali</footer>
+
+  <script>
+    const games = [
+      // New Games
+      { name: "Jaiho Spin", image: "images/jaiho-spin.png", link: "https://example.com/jaiho-spin.apk", category: "new", size: "50 MB", type: "Slots", winRate: "110%" },
+      { name: "Jaiho 777", image: "images/jaiho-777.png", link: "https://www.jaiho777agent.com?code=GC2H2BKE8A9&t=1753033048", category: "new", size: "45 MB", type: "Card", winRate: "110%" },
+      { name: "Jaiho Rummy", image: "images/jaiho-rummy.png", link: "https://jaihorummybonus.com?code=E74S6G5AENC&t=1753032930", category: "new", size: "60 MB", type: "Rummy", winRate: "110%" },
+      { name: "Top Rummy", image: "images/top-rummy.png", link: "https://www.toprummy.cc?code=7K91SETCGCA&t=1753006989", category: "new", size: "55 MB", type: "Rummy", winRate: "110%" },
+      { name: "Ind Club", image: "images/ind-club.png", link: "https://indclubagent9.com?code=34U4JJV4QD6&t=1753031594", category: "new", size: "70 MB", type: "Multiplayer", winRate: "110%" },
+      { name: "Jaiho Win", image: "images/jaiho-win.png", link: "https://www.jaihowin8.com?code=1XND3JEWPLV&t=1752746745", category: "new", size: "48 MB", type: "Slots", winRate: "110%" },
+      { name: "Jaiho Slots", image: "images/jaiho-slots.png", link: "#", category: "new", size: "52 MB", type: "Slots", winRate: "110%" },
+      // Old Games
+      { name: "Saga Slots", image: "images/saga-slots.png", link: "https://www.sagaslots3.com?code=0QHTGPSPKFS&t=1753032054", category: "old", size: "40 MB", type: "Slots", winRate: "110%" },
+      { name: "Jaiho 91", image: "images/jaiho-91.png", link: "#", category: "old", size: "45 MB", type: "Card", winRate: "110%" },
+      { name: "ABC Rummy", image: "images/abc-rummy.png", link: "https://www.abcrummy1.com?code=75CLDBCD661&t=1753032776", category: "old", size: "50 MB", type: "Rummy", winRate: "110%" },
+      { name: "Rummy 91", image: "images/rummy-91.png", link: "#", category: "old", size: "55 MB", type: "Rummy", winRate: "110%" },
+      { name: "Jaiho Arcade", image: "images/jaiho-arcade.png", link: "#", category: "old", size: "60 MB", type: "Arcade", winRate: "110%" },
+      { name: "Slots Spin", image: "images/slots-spin.png", link: "#", category: "old", size: "45 MB", type: "Slots", winRate: "110%" },
+      { name: "YN 777", image: "images/yn-777.png", link: "https://www.y754.com?code=4SW4LAU1LQB&t=1753033613", category: "old", size: "50 MB", type: "Card", winRate: "110%" },
+      { name: "EN 365", image: "images/en-365.png", link: "#", category: "old", size: "48 MB", type: "Rummy", winRate: "110%" },
+      { name: "101Z YONO", image: "images/101z-yono.png", link: "#", category: "old", size: "52 MB", type: "Multiplayer", winRate: "110%" },
+      { name: "Rummy 365", image: "images/rummy-365.png", link: "#", category: "old", size: "55 MB", type: "Rummy", winRate: "110%" },
+      { name: "Spin 101", image: "images/spin-101.png", link: "#", category: "old", size: "47 MB", type: "Slots", winRate: "110%" },
+      { name: "Ind Bingo", image: "images/ind-bingo.png", link: "#", category: "old", size: "50 MB", type: "Bingo", winRate: "110%" },
+      { name: "My 777", image: "images/my-777.png", link: "#", category: "old", size: "45 MB", type: "Card", winRate: "110%" },
+      { name: "MBM Bet", image: "images/mbm-bet.png", link: "https://www.mbmbet5.com?code=808WGE5TF6U&t=1753033832", category: "old", size: "60 MB", type: "Betting", winRate: "110%" },
+      { name: "MKM Bet", image: "images/mkm-bet.png", link: "#", category: "old", size: "55 MB", type: "Betting", winRate: "110%" },
+      { name: "YONO Arcade", image: "images/yono-arcade.png", link: "#", category: "old", size: "65 MB", type: "Arcade", winRate: "110%" },
+      { name: "YONO Rummy", image: "images/yono-rummy.png", link: "#", category: "old", size: "58 MB", type: "Rummy", winRate: "110%" },
+      { name: "YONO 777", image: "images/yono-777.png", link: "#", category: "old", size: "50 MB", type: "Card", winRate: "110%" },
+      { name: "YONO Slots", image: "images/yono-slots.png", link: "https://www.yonoslotsi.com?code=PJB4WQXCBPQ&t=1753034673", category: "old", size: "52 MB", type: "Slots", winRate: "110%" },
+      { name: "Ind Slots", image: "images/ind-slots.png", link: "#", category: "old", size: "48 MB", type: "Slots", winRate: "110%" },
+      { name: "Slots Winner", image: "images/slots-winner.png", link: "#", category: "old", size: "50 MB", type: "Slots", winRate: "110%" },
+      { name: "Spin Winner", image: "images/spin-winner.png", link: "https://spinwinnerc.com?code=SDNGCS9X7UA&t=1753033530", category: "old", size: "45 MB", type: "Slots", winRate: "110%" },
+      { name: "Spin Crush", image: "images/spin-crush.png", link: "#", category: "old", size: "47 MB", type: "Slots", winRate: "110%" },
+      { name: "Spin 777", image: "images/spin-777.png", link: "#", category: "old", size: "50 MB", type: "Card", winRate: "110%" },
+      { name: "Spin Lucky", image: "images/spin-lucky.png", link: "#", category: "old", size: "48 MB", type: "Slots", winRate: "110%" },
+      { name: "Spin Gold", image: "images/spin-gold.png", link: "#", category: "old", size: "52 MB", type: "Slots", winRate: "110%" },
+      { name: "GOGO Rummy", image: "images/gogo-rummy.png", link: "https://www.gogorummy19.com?code=8FW5HSEM282&t=1753034913", category: "old", size: "55 MB", type: "Rummy", winRate: "110%" },
+      { name: "Neta VIP", image: "images/neta-vip.png", link: "https://www.neta1.vip?code=DR09LM9A5M9&t=1753022321", category: "old", size: "60 MB", type: "VIP", winRate: "110%" },
+      { name: "Bet 213", image: "images/bet-213.png", link: "https://www.bet213.vip?code=2QT9AH7J7M7&t=1752746557", category: "old", size: "58 MB", type: "Betting", winRate: "110%" },
+      { name: "Bingo 101", image: "images/bingo-101.png", link: "https://bingo101.life?code=6YFDBM5H8DB&t=1753007108", category: "old", size: "50 MB", type: "Bingo", winRate: "110%" },
+      { name: "789 Jackpots", image: "images/789-jackpots.png", link: "https://789jackpots.club?code=J7ZU3J13NJQ&t=1753006617", category: "old", size: "55 MB", type: "Jackpot", winRate: "110%" },
+      { name: "567 Slots", image: "images/567-slots.png", link: "https://567slotsappagent.com?code=4NYQQAK148G&t=1752747404", category: "old", size: "48 MB", type: "Slots", winRate: "110%" },
+      { name: "YONO VIP", image: "images/yono-vip.png", link: "https://yonovip2.com?code=3CRHL3H8GRF&t=1753006871", category: "old", size: "62 MB", type: "VIP", winRate: "110%" },
+      { name: "YONO Games", image: "images/yono-games.png", link: "https://uonogames9.com?code=PAZG5WBJ&t=1752745666", category: "old", size: "50 MB", type: "Multiplayer", winRate: "110%" },
+     { name: "ICIC Games", image: "images/icic-games.png", link: "#", category: "old", size: "55 MB", type: "Arcade", winRate: "110%" },
+    ];
+    let currentCategory = 'all';
+
+    function showSection(category) {
+      currentCategory = category;
+      displayGames();
+    }
+
+    function searchGames() {
+      let input = document.querySelector('.search-bar').value.toLowerCase();
+      let gameContainer = document.getElementById('gameContainer');
+      gameContainer.innerHTML = ''; // Clear previous results
+
+      let filteredGames = games.filter(game => 
+        game.name.toLowerCase().includes(input) && 
+        (currentCategory === 'all' || game.category === currentCategory)
+      );
+
+      if (filteredGames.length > 0) {
+        for (let i = 0; i < filteredGames.length; i += 2) {
+          let row = document.createElement('div');
+          row.className = 'game-row';
+          let game1 = filteredGames[i];
+          let game2 = filteredGames[i + 1];
+
+          if (game1) {
+            let item1 = document.createElement('div');
+            item1.className = 'game-item';
+            let img1 = document.createElement('img');
+            img1.src = game1.image;
+            img1.alt = `${game1.name} Logo`;
+            img1.onclick = () => showModal(game1);
+            let link1 = document.createElement('a');
+            link1.href = game1.link;
+            link1.target = "_blank";
+            link1.textContent = game1.name;
+            if (game1.link === "#") {
+              link1.className = 'no-link';
+              link1.removeAttribute('href');
+              link1.textContent = `${game1.name} (Link Coming Soon)`;
+            }
+            item1.appendChild(img1);
+            item1.appendChild(link1);
+            row.appendChild(item1);
+          }
+
+          if (game2) {
+            let item2 = document.createElement('div');
+            item2.className = 'game-item';
+            let img2 = document.createElement('img');
+            img2.src = game2.image;
+            img2.alt = `${game2.name} Logo`;
+            img2.onclick = () => showModal(game2);
+            let link2 = document.createElement('a');
+            link2.href = game2.link;
+            link2.target = "_blank";
+            link2.textContent = game2.name;
+            if (game2.link === "#") {
+              link2.className = 'no-link';
+              link2.removeAttribute('href');
+              link2.textContent = `${game2.name} (Link Coming Soon)`;
+            }
+            item2.appendChild(img2);
+            item2.appendChild(link2);
+            row.appendChild(item2);
+          }
+
+          gameContainer.appendChild(row);
+        }
+      } else {
+        gameContainer.innerHTML = '<div>No results found</div>';
+      }
+    }
+
+    function displayGames() {
+      document.querySelector('.search-bar').value = '';
+      searchGames();
+    }
+
+    function showModal(game) {
+      document.getElementById('modal-image').src = game.image;
+      document.getElementById('modal-name').textContent = game.name;
+      document.getElementById('modal-details').textContent = `Size: ${game.size} | Type: ${game.type} | Winning Rate: ${game.winRate}`;
+      let modalLink = document.getElementById('modal-link');
+      if (game.link === "#") {
+        modalLink.className = 'no-link';
+        modalLink.removeAttribute('href');
+        modalLink.textContent = 'Link Coming Soon';
+      } else {
+        modalLink.className = '';
+        modalLink.href = game.link;
+        modalLink.textContent = 'Download';
+      }
+      document.getElementById('modal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('modal').style.display = 'none';
+    }
+
+    // Initial load with all games
+    window.onload = displayGames;
+  </script>
+</body>
+</html>
